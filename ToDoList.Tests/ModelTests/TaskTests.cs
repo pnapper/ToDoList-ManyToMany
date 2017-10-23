@@ -10,14 +10,15 @@ namespace ToDoList.Tests
   // public class TaskTests : IDisposable
   public class TaskTests : IDisposable
   {
-    public void Dispose()
-    {
-      Task.DeleteAll();
-    }
-
     public TaskTests()
     {
         DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=todo_test;";
+    }
+
+    public void Dispose()
+    {
+      Task.DeleteAll();
+      Category.DeleteAll();
     }
 
     [TestMethod]
@@ -31,11 +32,11 @@ namespace ToDoList.Tests
     }
 
     [TestMethod]
-    public void Equals_ReturnsTrueIfDescriptionsAreTheSame_Task()
+    public void Equals_OverrideTrueIfDescriptionsAreTheSame_Task()
     {
       // Arrange, Act
-      Task firstTask = new Task("Mow the lawn");
-      Task secondTask = new Task("Mow the lawn");
+      Task firstTask = new Task("Mow the lawn",1);
+      Task secondTask = new Task("Mow the lawn",1);
 
       // Assert
       Assert.AreEqual(firstTask, secondTask);
@@ -45,7 +46,7 @@ namespace ToDoList.Tests
     public void Save_SavesToDatabase_TaskList()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn");
+      Task testTask = new Task("Mow the lawn",1);
 
       //Act
       testTask.Save();
@@ -60,7 +61,7 @@ namespace ToDoList.Tests
     public void Save_AssignsIdToObject_Id()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn");
+      Task testTask = new Task("Mow the lawn",1);
 
       //Act
       testTask.Save();
@@ -77,7 +78,7 @@ namespace ToDoList.Tests
     public void Find_FindsTaskInDatabase_Task()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn");
+      Task testTask = new Task("Mow the lawn",1);
       testTask.Save();
 
       //Act
@@ -87,6 +88,6 @@ namespace ToDoList.Tests
       Assert.AreEqual(testTask, foundTask);
     }
 
-    
+
   }
 }
