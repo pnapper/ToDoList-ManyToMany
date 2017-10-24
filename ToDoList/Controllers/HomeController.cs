@@ -38,17 +38,46 @@ namespace TodoList.Controllers
     }
 
     [HttpGet("/{name}/{id}/tasklist")]
-    public ActionResult CategoryDetail(int id)
+    public ActionResult ViewTaskList(int id)
     {
-      Dictionary<string, object> model = new Dictionary<string, object>;
+      Console.WriteLine("hello we are in Get");
+
+      Dictionary<string, object> model = new Dictionary<string, object>();
       Category selectedCategory = Category.Find(id); //Category is selected as an object
       List<Task> categoryTasks = selectedCategory.GetTasks(); //Tasks are displayed in a list
 
       model.Add("category", selectedCategory);
       model.Add("tasks", categoryTasks);
 
-      return View(model);
       //return the task list for selected category
+      return View("CategoryDetail", model);
+    }
+
+    [HttpGet("/{name}/{id}/task/add")]
+    public ActionResult AddTask(int id)
+    {
+      Category selectedCategory = Category.Find(id); //Category is selected as an object
+
+      return View(selectedCategory);
+
+    }
+
+    [HttpPost("/{name}/{id}/tasklist")]
+    public ActionResult AddTaskViewTaskList(int id)
+    {
+      Task newTask = new Task(Request.Form["task-name"], id);
+      newTask.Save();
+      Console.WriteLine(newTask.GetDescription());
+
+      Dictionary<string, object> model = new Dictionary<string, object>();
+      Category selectedCategory = Category.Find(id); //Category is selected as an object
+      List<Task> categoryTasks = selectedCategory.GetTasks(); //Tasks are displayed in a list
+
+      model.Add("category", selectedCategory);
+      model.Add("tasks", categoryTasks);
+
+      //return the task list for selected category
+      return View("CategoryDetail", model);
     }
   }
 }

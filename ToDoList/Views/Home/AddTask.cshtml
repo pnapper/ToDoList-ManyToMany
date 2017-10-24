@@ -1,5 +1,10 @@
-<h1>Add Task for </h1>
+<h1>Add Task for @Model.GetName()</h1>
 
-<form action="/" method="post">
-
+<form action="/@Model.GetName()/@Model.GetId()/tasklist" method="post">
+  <label for="task-name">New Task</label>
+  <input type="text" name="task-name" class="form-control">
+  <button type="submit" name="button">Add Task</button>
 </form>
+
+<a href="/@Model.GetName()/@Model.GetId()/tasklist">View Task List</a><br>
+<a href="/">HomePage</a>
