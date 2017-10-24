@@ -20,19 +20,27 @@ namespace TodoList.Controllers
     }
 
     [HttpPost("/category/list")]
-    public ActionResult ViewCategories()
+    public ActionResult WriteCategories()
     {
       Category newCategory = new Category(Request.Form["category-name"]);
       newCategory.Save();
       List<Category> allCategories = Category.GetAll();
 
-      return View(allCategories);
+      return View("ViewCategories", allCategories);
+    }
+
+    [HttpGet("/category/list")]
+    public ActionResult ReadCategories()
+    {
+          List<Category> allCategories = Category.GetAll();
+
+      return View("ViewCategories", allCategories);
     }
 
     [HttpGet("/{name}/tasklist")]
     public ActionResult CategoryDetail(string name)
     {
-
+      
     }
   }
 }
