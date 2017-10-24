@@ -10,7 +10,9 @@ namespace TodoList.Controllers
     [HttpGet("/")]
     public ActionResult Index()
     {
-      return View();
+      List<Task> categoryTasks = Task.GetAll();
+
+      return View(categoryTasks);
     }
 
     [HttpGet("/category/add")]

@@ -35,8 +35,8 @@ namespace ToDoList.Tests
     public void Equals_OverrideTrueIfDescriptionsAreTheSame_Task()
     {
       // Arrange, Act
-      Task firstTask = new Task("Mow the lawn",1);
-      Task secondTask = new Task("Mow the lawn",1);
+      Task firstTask = new Task("Mow the lawn",1,"2017-01-01");
+      Task secondTask = new Task("Mow the lawn",1,"2017-01-01");
 
       // Assert
       Assert.AreEqual(firstTask, secondTask);
@@ -46,7 +46,7 @@ namespace ToDoList.Tests
     public void Save_SavesToDatabase_TaskList()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn",1);
+      Task testTask = new Task("Mow the lawn",1,"2017-01-01");
 
       //Act
       testTask.Save();
@@ -61,7 +61,7 @@ namespace ToDoList.Tests
     public void Save_AssignsIdToObject_Id()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn",1);
+      Task testTask = new Task("Mow the lawn",1,"2017-01-01");
 
       //Act
       testTask.Save();
@@ -78,7 +78,7 @@ namespace ToDoList.Tests
     public void Find_FindsTaskInDatabase_Task()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn",1);
+      Task testTask = new Task("Mow the lawn",1,"2017-01-01");
       testTask.Save();
 
       //Act
@@ -87,7 +87,23 @@ namespace ToDoList.Tests
       //Assert
       Assert.AreEqual(testTask, foundTask);
     }
+    [TestMethod]
+    public void Update_UpdatesTaskInDatabase_String()
+    {
+      //Arrange
+      string description = "Walk the Dog";
+      Task testTask = new Task(description, 1, "2017-01-01");
+      testTask.Save();
+      string newDescription = "Mow the lawn";
 
+      //Act
+      testTask.UpdateDescription(newDescription);
+
+      string result = Task.Find(testTask.GetId()).GetDescription();
+
+      //Assert
+      Assert.AreEqual(newDescription, result);
+    }
 
   }
 }
