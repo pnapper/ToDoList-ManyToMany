@@ -32,7 +32,7 @@ namespace TodoList.Controllers
     [HttpGet("/category/list")]
     public ActionResult ReadCategories()
     {
-          List<Category> allCategories = Category.GetAll();
+      List<Category> allCategories = Category.GetAll();
 
       return View("ViewCategories", allCategories);
     }

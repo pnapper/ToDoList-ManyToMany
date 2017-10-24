@@ -13,7 +13,7 @@ namespace ToDoList.Models
             _name = name;
             _id = id;
         }
-        
+
         public override bool Equals(System.Object otherCategory)
         {
             if (!(otherCategory is Category))
@@ -45,6 +45,31 @@ namespace ToDoList.Models
         public List<Task> GetTasks()
         {
             List<Task> allCategoryTasks = new List<Task> {};
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM tasks WHERE category_id = @category_id;";
+
+            MySqlParameter categoryId = new MySqlParameter();
+            categoryId.ParameterName = "@category_id";
+            categoryId.Value = this._id;
+            cmd.Parameters.Add(categoryId);
+
+
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while(rdr.Read())
+            {
+              int taskId = rdr.GetInt32(0);
+              string taskDescription = rdr.GetString(1);
+              int taskCategoryId = rdr.GetInt32(2);
+              Task newTask = new Task(taskDescription, taskCategoryId, taskId);
+              allCategoryTasks.Add(newTask);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
             return allCategoryTasks;
         }
 
