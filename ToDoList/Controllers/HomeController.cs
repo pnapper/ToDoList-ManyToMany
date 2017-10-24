@@ -37,10 +37,18 @@ namespace TodoList.Controllers
       return View("ViewCategories", allCategories);
     }
 
-    [HttpGet("/{name}/tasklist")]
-    public ActionResult CategoryDetail(string name)
+    [HttpGet("/{name}/{id}/tasklist")]
+    public ActionResult CategoryDetail(int id)
     {
-      
+      Dictionary<string, object> model = new Dictionary<string, object>;
+      Category selectedCategory = Category.Find(id); //Category is selected as an object
+      List<Task> categoryTasks = selectedCategory.GetTasks(); //Tasks are displayed in a list
+
+      model.Add("category", selectedCategory);
+      model.Add("tasks", categoryTasks);
+
+      return View(model);
+      //return the task list for selected category
     }
   }
 }
