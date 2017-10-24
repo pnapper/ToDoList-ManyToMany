@@ -65,16 +65,16 @@ namespace TodoList.Controllers
     [HttpPost("/{name}/{id}/tasklist")]
     public ActionResult AddTaskViewTaskList(int id)
     {
-      Task newTask = new Task(Request.Form["task-name"], id);
+      Task newTask = new Task(Request.Form["task-name"], id, Request.Form["task-dueDate"]);
       newTask.Save();
-      Console.WriteLine(newTask.GetDescription());
-
       Dictionary<string, object> model = new Dictionary<string, object>();
       Category selectedCategory = Category.Find(id); //Category is selected as an object
       List<Task> categoryTasks = selectedCategory.GetTasks(); //Tasks are displayed in a list
+      Console.WriteLine(id);
 
       model.Add("category", selectedCategory);
       model.Add("tasks", categoryTasks);
+      Console.WriteLine(categoryTasks[0].GetDescription());
 
       //return the task list for selected category
       return View("CategoryDetail", model);

@@ -5,15 +5,17 @@
     <h3>No tasks have been added yet!</h3>
   }
   <table>
-    <tr>      
+    <tr>
       <th>Id</th>
       <th>Task</th>
+      <th>Due Date</th>
     </tr>
     @foreach (var task in @Model["tasks"])
     {
       <tr>
       <td>@task.GetId()</td>
       <td>@task.GetDescription()</td>
+      <td>@task.GetDueDate()</td>
       </tr>
     }
   </table>
