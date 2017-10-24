@@ -1,0 +1,23 @@
+<h1>Homepage</h1>
+
+<table>
+  <tr>
+    <th>No.</th>
+    <th>Task</th>
+    <th>Category</th>
+    @* <th>Due Date</th> *@
+  </tr>
+  @* Dictionary *@
+  @foreach (var task in tasks)
+  {
+    <tr>
+    <th>@Model.GetId()</th>
+    <th>@Model.GetDescription()</th>
+    <th>@Model.GetName()</th>
+    /*<th>@Model.GetDueDate()</th>*/
+    </tr>
+  }
+</table>
+
+<a href="/category/add">Add Category</a>
+<a href="/category/list">View Categories</a>
