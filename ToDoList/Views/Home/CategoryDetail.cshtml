@@ -12,6 +12,7 @@
     </tr>
     @foreach (var task in @Model["tasks"])
     {
+      <h4>@task.GetDescription() | <a href="/tasks/@task.GetId()/edit">Edit</a></h4>
       <tr>
       <td>@task.GetId()</td>
       <td>@task.GetDescription()</td>
