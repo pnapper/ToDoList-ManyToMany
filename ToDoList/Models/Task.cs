@@ -150,7 +150,7 @@ namespace ToDoList.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM `tasks` WHERE id = @thisId;";
+      cmd.CommandText = @"SELECT * FROM `tasks` WHERE id = @thisId ORDER BY id DESC;";
 
       MySqlParameter searchId = new MySqlParameter();
       searchId.ParameterName = "@thisId";
