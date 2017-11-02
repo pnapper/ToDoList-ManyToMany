@@ -32,10 +32,11 @@ namespace TodoList.Controllers
     {
       return View();
     }
+
     [HttpPost("/tasks/new")]
     public ActionResult TaskCreate()
     {
-      Task newTask = new Task(Request.Form["task-description"], Request.Form["task-dueDate"]);
+      Task newTask = new Task(Request.Form["task-description"], Request.Form["due-date"]);
       newTask.Save();
       return View("Success");
     }
@@ -65,7 +66,7 @@ namespace TodoList.Controllers
       model.Add("task", selectedTask);
       model.Add("taskCategories", TaskCategories);
       model.Add("allCategories", AllCategories);
-      return View( model);
+      return View("TaskDetail", model);
 
     }
 

@@ -8,13 +8,15 @@ namespace ToDoList.Models
   {
     private int _id;
     private string _description;
+    private int _iscompleted;
     private string _dueDate;
 
-    public Task(string description, string dueDate, int Id = 0)
+    public Task(string description, string dueDate, int Id = 0, int iscompleted = 0)
     {
       _id = Id;
       _description = description;
       _dueDate = dueDate;
+      _iscompleted = iscompleted;
     }
 
     public override bool Equals(System.Object otherTask)
@@ -29,6 +31,7 @@ namespace ToDoList.Models
         bool idEquality = (this.GetId() == newTask.GetId());
         bool descriptionEquality = (this.GetDescription() == newTask.GetDescription());
         bool dueDateEquality = this.GetDueDate() == newTask.GetDueDate();
+        bool isCompletedEquality = this.GetIsCompleted() == newTask.GetIsCompleted();
         return (idEquality && descriptionEquality && dueDateEquality);
       }
     }
@@ -43,6 +46,10 @@ namespace ToDoList.Models
       return _description;
     }
 
+    public int GetIsCompleted()
+    {
+      return _iscompleted;
+    }
 
     public int GetId()
     {
@@ -110,10 +117,10 @@ namespace ToDoList.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM `tasks` WHERE id = @thisId ORDER BY id DESC;";
+      cmd.CommandText = @"SELECT * FROM tasks WHERE id = (@searchId);";
 
       MySqlParameter searchId = new MySqlParameter();
-      searchId.ParameterName = "@thisId";
+      searchId.ParameterName = "@searchId";
       searchId.Value = id;
       cmd.Parameters.Add(searchId);
 
@@ -158,6 +165,38 @@ namespace ToDoList.Models
 
       cmd.ExecuteNonQuery();
       _description = newDescription;
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+
+    public void UpdateIsCompleted()
+    {
+      if (_iscompleted == 0) {
+        _iscompleted = 1;
+      } else {
+        _iscompleted = 0;
+      }
+
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"UPDATE tasks SET is_completed = @completed WHERE id = @searchId;";
+
+      MySqlParameter searchId = new MySqlParameter();
+      searchId.ParameterName = "@searchId";
+      searchId.Value = _id;
+      cmd.Parameters.Add(searchId);
+
+      MySqlParameter description = new MySqlParameter();
+      description.ParameterName = "@completed";
+      description.Value = _iscompleted;
+      cmd.Parameters.Add(description);
+
+      cmd.ExecuteNonQuery();
 
       conn.Close();
       if (conn != null)

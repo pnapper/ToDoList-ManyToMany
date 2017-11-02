@@ -90,7 +90,7 @@ namespace ToDoList.Tests
 
       Task firstTask = new Task("Mow the lawn", "2017-01-01");
       firstTask.Save();
-      Task secondTask = new Task("Do the dishes", "2017-01-01");
+      Task secondTask = new Task("Do the dishes", "2017-02-01");
       secondTask.Save();
 
 
